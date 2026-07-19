@@ -60,482 +60,152 @@ body {
     align-items: center;
     min-height: 100vh;
     padding: 20px;
-    position: relative;
+    /* Hace que el cambio de luces (Light/Dark) se vea suave en 0.3 segundos */
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* ==========================================================================
-   3. CONTENEDOR PRINCIPAL Y TARJETAS (PANTALLAS)
-   ========================================================================== */
-#auth-container {
-    width: 100%;
-    max-width: 2220px;
-    padding: 10px;
-}
-
-/* Estilo de tarjeta con trazos de dibujo animado */
-.auth-card {
-    background-color: var(--color-tarjeta);
-    border: 3px solid var(--color-borde);
-    border-radius: var(--redondeado);
-    box-shadow: var(--sombra-comic);
-    padding: 35px 30px;
-    transition: var(--transicion-suave);
-    position: relative;
-    overflow: hidden;
-}
-
-/* Títulos estilo logo de cómic con impacto */
-.auth-card h2 {
-    font-family: 'Bangers', cursive;
-    font-size: 2.3rem;
-    letter-spacing: 2px;
-    margin-bottom: 28px;
-    text-align: center;
-    color: var(--color-acento);
-    -webkit-text-stroke: 1px var(--color-borde);
-    text-shadow: 3px 3px 0px var(--color-borde);
-}
-
-/* ==========================================================================
-   4. CAJAS DE TEXTO (INPUTS) Y FORMULARIOS
-   ========================================================================== */
-.input-group {
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-}
-
-.input-group label {
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 8px;
-    color: var(--color-texto-principal);
-}
-
-.input-group input,
-.input-group select {
-    padding: 12px 14px;
-    font-family: inherit;
-    font-size: 15px;
-    font-weight: 700;
-    border: 3px solid var(--color-borde);
-    border-radius: 10px;
-    background-color: var(--color-tarjeta);
-    color: var(--color-texto-principal);
-    outline: none;
-    transition: var(--transicion-suave);
-}
-
-/* Efecto cuando el usuario selecciona una caja: se desplaza en 3D */
-.input-group input:focus,
-.input-group select:focus {
-    border-color: var(--color-acento);
-    transform: translate(-2px, -2px);
-    box-shadow: 4px 4px 0px var(--color-borde);
-}
-
-/* ==========================================================================
-   5. BOTONES Y ENLACES
-   ========================================================================== */
-.btn-primary {
-    width: 100%;
-    padding: 14px;
-    font-family: inherit;
-    font-size: 16px;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #000000; /* Texto oscuro para máxima estética de cómic */
-    background-color: var(--color-primario);
-    border: 3px solid var(--color-borde);
-    border-radius: 10px;
-    cursor: pointer;
-    margin-top: 12px;
-    box-shadow: 4px 4px 0px var(--color-borde);
-    transition: var(--transicion-suave);
-}
-
-/* Animación del botón: al presionarlo físicamente baja */
-.btn-primary:hover {
-    background-color: var(--color-primario-hover);
-    transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0px var(--color-borde);
-}
-
-.btn-primary:active {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0px var(--color-borde);
-}
-
-p {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--color-texto-secundario);
-}
-
-a {
-    color: var(--color-acento);
-    text-decoration: none;
-    font-weight: 700;
-    border-bottom: 2px dashed transparent;
-    transition: var(--transicion-suave);
-}
-
-a:hover {
-    border-bottom-color: var(--color-acento);
-    text-shadow: 1px 1px 0px rgba(0,0,0,0.2);
-}
-
-/* Cuadro para la pregunta de seguridad */
-#security-question-label {
-    font-weight: 700;
-    color: var(--color-texto-principal);
-    background-color: var(--color-fondo-pantalla);
-    border: 2px dashed var(--color-borde);
-    padding: 12px;
+/* Contenedor del interruptor de luces */
+.theme-switcher-container {
+    background-color: var(--color-fondo-caja);
+    border: 2px solid var(--color-acento-principal);
+    padding: 10px 15px;
     border-radius: 8px;
-    margin-bottom: 18px;
-    text-align: left;
+    display: inline-block;
+    margin-bottom: 20px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 /* ==========================================================================
-   6. CONTROL DE VISIBILIDAD
+   ALERTA DE RED (MODO OFFLINE)
    ========================================================================== */
+.toast-offline {
+    background-color: var(--color-alerta-fondo);
+    color: var(--color-alerta-texto);
+    padding: 15px;
+    border: 2px solid var(--color-acento-principal);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Clase mágica que JavaScript pone y quita para ocultar cosas */
+.oculto-total {
+    display: none !important;
+}
+
+/* Clase para ocultar pantallas completas (Login, Tablas, etc.) */
 .oculto {
     display: none !important;
 }
 
 /* ==========================================================================
-   ESTILOS PARA EL INTERRUPTOR DE TEMA (MODO OSCURO SUPERIOR)
+   ESTILOS DE TABLAS Y CUADROS DE TEXTO (RESPONSIVOS)
    ========================================================================== */
-.theme-switcher-container {
-    position: absolute; /* <-- CAMBIADO A ABSOLUTE */
-    top: 25px;          /* Separación desde el techo de la pantalla */
-    right: 25px;        /* Separación desde el borde derecho */
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background-color: var(--color-tarjeta);
-    border: 3px solid var(--color-borde);
-    border-radius: 20px;
-    padding: 8px 16px;
-    box-shadow: 3px 3px 0px var(--color-borde);
-    z-index: 1000;      /* Se posiciona por encima del login */
-    transition: var(--transicion-suave);
-}
-
-.theme-switcher-container label {
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    cursor: pointer;
-    color: var(--color-texto-principal);
-}
-
-.theme-switcher-container input[type="checkbox"] {
-    cursor: pointer;
-    accent-color: var(--color-primario); /* Usa el verde portal cuando esté activo */
-    width: 16px;
-    height: 16px;
-}
-
-/* ==========================================================================
-   7. VISTAS AMPLIADAS DE GESTIÓN (Ajuste para tablas grandes)
-   ========================================================================== */
-#characters-view, #episodes-view {
-    width: 100%;
-    max-width: 1100px; /* Se expande dinámicamente para las tablas */
-    background-color: var(--color-tarjeta);
-    border: 3px solid var(--color-borde);
-    border-radius: var(--redondeado);
-    box-shadow: var(--sombra-comic);
-    padding: 30px;
-    margin: 40px auto;
-}
-
-#characters-view h2, #episodes-view h2 {
-    font-family: 'Bangers', cursive;
-    font-size: 2.8rem;
-    letter-spacing: 2px;
-    color: var(--color-primario);
-    -webkit-text-stroke: 1px var(--color-borde);
-    text-shadow: 4px 4px 0px var(--color-borde);
-    margin-bottom: 25px;
-    text-align: left;
-}
-
-/* ==========================================================================
-   8. MENÚ DE NAVEGACIÓN SUPERIOR (BARRA NAV CORREGIDA EN HORIZONTAL)
-   ========================================================================== */
-.main-navigation {
-    display: flex;
-    flex-direction: row;       /* Fuerza a que estén en una sola línea */
-    align-items: center;       /* Los alinea perfectamente por el centro vertical */
-    justify-content: flex-start; 
-    width: 100%;               /* Toma todo el ancho de la tarjeta */
-    gap: 15px;                 /* Separa los botones de forma idéntica */
-    border-bottom: 3px solid var(--color-borde);
-    padding-bottom: 20px;
-    margin-bottom: 25px !important;
-}
-
-.main-navigation button {
-    padding: 10px 22px;
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 700;
-    text-transform: uppercase;
-    border: 3px solid var(--color-borde);
-    border-radius: 8px;
-    cursor: pointer;
-    white-space: nowrap;       /* Evita que el texto del botón se parta en dos líneas */
-    transition: var(--transicion-suave);
-    box-shadow: 3px 3px 0px var(--color-borde);
-}
-
-.btn-nav-characters {
-    background-color: var(--color-acento);
-    color: #000000;
-}
-
-.btn-nav-episodes {
-    background-color: #00b0c8; 
-    color: #ffffff;
-}
-
-.btn-logout {
-    background-color: var(--color-error) !important;
-    color: #ffffff !important;
-    margin-left: auto;         /* ¡Magia Flexbox! Empuja el botón al extremo derecho */
-}
-
-.main-navigation button:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 5px 5px 0px var(--color-borde);
-}
-
-.main-navigation button:active {
-    transform: translate(1px, 1px);
-    box-shadow: 1px 1px 0px var(--color-borde);
-}
-
-/* ==========================================================================
-   9. BUSCADOR EN TIEM realtime
-   ========================================================================== */
-.search-container {
-    margin-bottom: 25px;
-}
-
-.search-container input {
-    width: 100%;
-    padding: 14px 16px;
-    font-family: inherit;
-    font-size: 15px;
-    font-weight: 700;
-    border: 3px solid var(--color-borde);
-    border-radius: 10px;
-    background-color: var(--color-fondo-pantalla);
-    color: var(--color-texto-principal);
-    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.05);
-    outline: none;
-    transition: var(--transicion-suave);
-}
-
-.search-container input:focus {
-    border-color: var(--color-primario);
-    box-shadow: 4px 4px 0px var(--color-borde);
-}
-
-/* ==========================================================================
-   10. TABLAS DE DATOS ESTILO HISTORIETA
-   ========================================================================== */
-.table-responsive {
-    width: 100%;
-    overflow-x: auto; /* Permite scroll en teléfonos */
-    border: 3px solid var(--color-borde);
-    border-radius: 10px;
-    box-shadow: 4px 4px 0px var(--color-borde);
-}
-
 table {
     width: 100%;
     border-collapse: collapse;
-    background-color: var(--color-tarjeta);
+    background-color: var(--color-fondo-caja);
+    border: 1px solid var(--color-borde);
+    margin-top: 15px;
+    border-radius: 8px;
+    overflow: hidden; /* Para que los bordes redondeados se vean bien */
+    transition: background-color 0.3s ease;
+}
+
+th, td {
+    padding: 12px;
     text-align: left;
-    font-size: 15px;
+    border-bottom: 1px solid var(--color-borde);
 }
 
 th {
-    background-color: var(--color-fondo-pantalla);
+    background-color: var(--color-acento-principal);
+    /* Si el fondo del título es amarillo (Morty), el texto va oscuro. Si es azul (Rick), va claro */
+    color: var(--color-fondo-pagina); 
+    cursor: pointer; /* Indica que se puede hacer clic para ordenar */
+}
+
+input, select {
+    background-color: var(--color-fondo-caja);
     color: var(--color-texto-principal);
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 13px;
-    letter-spacing: 0.5px;
-    padding: 14px 16px;
-    border-bottom: 3px solid var(--color-borde);
-    user-select: none;
-}
-
-th.cursor-pointer, th[style*="cursor: pointer"] {
-    cursor: pointer !important;
-}
-
-th:not(:last-child), td:not(:last-child) {
-    border-right: 2px dashed var(--color-borde); /* Separador de celdas estilo boceto */
-}
-
-td {
-    padding: 12px 16px;
-    border-bottom: 2px solid var(--color-borde);
-    color: var(--color-texto-principal);
-    font-weight: 500;
-}
-
-tr:last-child td {
-    border-bottom: none;
-}
-
-tr:hover td {
-    background-color: rgba(250, 224, 66, 0.08); /* Destello sutil al pasar por la fila */
-}
-
-/* Badges decorativas internas de la tabla */
-.badge-especie, .badge-codigo {
-    display: inline-block;
-    padding: 4px 10px;
-    font-size: 12px;
-    font-weight: 700;
     border: 2px solid var(--color-borde);
+    padding: 8px 12px;
     border-radius: 6px;
-    background-color: var(--color-fondo-pantalla);
-    color: var(--color-texto-principal);
+    font-size: 14px;
+    transition: border-color 0.3s ease;
 }
 
-/* Contenedor y botones de operaciones dentro de cada fila */
-.actions-cell-container {
-    display: flex;
-    gap: 8px;
+input:focus {
+    border-color: var(--color-acento-principal);
+    outline: none;
 }
 
-.actions-cell-container button {
-    padding: 6px 12px;
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 700;
-    border: 2px solid var(--color-borde);
-    border-radius: 6px;
-    cursor: pointer;
-    transition: var(--transicion-suave);
-    box-shadow: 2px 2px 0px var(--color-borde);
-}
-
-.btn-ver-detalle, .btn-ver-detalle-epi {
-    background-color: #00b0c8;
+/* BOTONES ESTILO PORTAL */
+button {
+    background-color: var(--color-portal-verde);
     color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    text-shadow: 0px 1px 2px rgba(0,0,0,0.5);
+    transition: transform 0.1s ease, filter 0.2s ease;
 }
 
-.btn-editar-ficha, .btn-editar-ficha-epi {
-    background-color: var(--color-primario);
-    color: #000000;
+button:hover {
+    filter: brightness(1.2); /* Brilla un poco al pasar el ratón */
 }
 
-.actions-cell-container button:hover {
-    transform: translate(-1px, -1px);
-    box-shadow: 3px 3px 0px var(--color-borde);
+button:active {
+    transform: scale(0.95); /* Se hunde un poco al hacer clic */
 }
 
 /* ==========================================================================
-   11. DISEÑO DE VENTANAS MODALES (FICHAS EMERGENTES)
+   DISEÑO 100% RESPONSIVO (ADAPTABLE A CUALQUIER PANTALLA)
    ========================================================================== */
-.modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(10, 15, 29, 0.6); /* Capa translúcida espacial */
-    backdrop-filter: blur(4px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
+
+/* Tablets (Pantallas medianas menores a 768px) */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    th, td {
+        padding: 10px;
+        font-size: 14px;
+    }
 }
 
-.modal-card {
-    background-color: var(--color-tarjeta);
-    border: 4px solid var(--color-borde);
-    border-radius: var(--redondeado);
-    box-shadow: 8px 8px 0px #000000;
-    width: 100%;
-    max-width: 460px;
-    padding: 30px;
-    position: relative;
-    animation: popIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
+/* Teléfonos Móviles (Pantallas pequeñas menores a 480px) */
+@media (max-width: 480px) {
+    /* Transformamos la tabla en bloques independientes apilados hacia abajo */
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+    
+    thead tr {
+        display: none; /* Escondemos los títulos de arriba porque no caben de lado */
+    }
+    
+    tr {
+        margin-bottom: 15px;
+        border: 2px solid var(--color-borde);
+        border-radius: 8px;
+        padding: 10px;
+        background-color: var(--color-fondo-caja);
+    }
+    
+    td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+        border-bottom: 1px dashed var(--color-borde);
+    }
 
-@keyframes popIn {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+    td:last-child {
+        border-bottom: none; /* Quitamos la línea al último elemento */
+    }
 }
-
-.close-btn {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    font-size: 28px;
-    font-weight: 900;
-    color: var(--color-texto-secundario);
-    cursor: pointer;
-    transition: var(--transicion-suave);
-}
-
-.close-btn:hover {
-    color: var(--color-error);
-    transform: scale(1.1);
-}
-
-.modal-card h3 {
-    font-family: 'Bangers', cursive;
-    font-size: 2rem;
-    color: var(--color-acento);
-    -webkit-text-stroke: 1px var(--color-borde);
-    text-shadow: 2px 2px 0px var(--color-borde);
-    margin-bottom: 20px;
-}
-
-/* Contenedor de la foto del personaje en la ficha */
-.character-photo-container {
-    width: 140px;
-    height: 140px;
-    margin: 0 auto 20px auto;
-    border: 3px solid var(--color-borde);
-    border-radius: 50%;
-    overflow: hidden;
-    box-shadow: 4px 4px 0px var(--color-borde);
-    background-color: var(--color-fondo-pantalla);
-}
-
-.character-photo-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* inputs deshabilitados (Modo Ver Detalle) */
-.input-group input:disabled, 
-.input-group select:disabled {
-    background-color: var(--color-fondo-pantalla);
-    color: var(--color-texto-secundario);
-    border-style: dashed;
-    cursor: not-allowed;
-    box-shadow: none;
-    transform: none;
-}
-
