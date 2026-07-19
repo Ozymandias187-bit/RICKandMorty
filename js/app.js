@@ -227,15 +227,16 @@ function pintarTablaPersonajes(listaDePersonajes) {
         const p = listaDePersonajes[i];
         const filaHtml = `
             <tr>
-                <td>${p.id}</td>
+                <td><strong>#${p.id}</strong></td>
                 <td>${p.name}</td>
-                <td>${p.species}</td>
+                <td><span class="badge-especie">${p.species}</span></td>
                 <td>${p.gender}</td>
                 <td>${p.type || 'Ninguno'}</td>
                 <td>
-                    <!-- Botones con clases y acciones totalmente separadas -->
-                    <button class="btn-ver-detalle" data-id="${p.id}" style="background-color: #00b0c8; margin-right: 5px;">Ver Detalle</button>
-                    <button class="btn-editar-ficha" data-id="${p.id}" style="background-color: #1bc43b;">Editar</button>
+                    <div class="actions-cell-container">
+                        <button class="btn-ver-detalle" data-id="${p.id}">Ver Detalle</button>
+                        <button class="btn-editar-ficha" data-id="${p.id}">Editar</button>
+                    </div>
                 </td>
             </tr>
         `;
@@ -358,14 +359,15 @@ function pintarTablaEpisodios(listaDeEpisodios) {
         const e = listaDeEpisodios[i];
         const filaHtml = `
             <tr>
-                <td>${e.id}</td>
+                <td><strong>#${e.id}</strong></td>
                 <td>${e.name}</td>
                 <td>${e.air_date}</td>
-                <td>${e.episode}</td>
+                <td><span class="badge-codigo">${e.episode}</span></td>
                 <td>
-                    <!-- CLASES CORREGIDAS: btn-ver-detalle-epi y btn-editar-ficha-epi -->
-                    <button class="btn-ver-detalle-epi" data-id="${e.id}" style="background-color: #00b0c8; margin-right: 5px;">Ver Detalle</button>
-                    <button class="btn-editar-ficha-epi" data-id="${e.id}" style="background-color: #1bc43b;">Editar</button>
+                    <div class="actions-cell-container">
+                        <button class="btn-ver-detalle-epi" data-id="${e.id}">Ver Detalle</button>
+                        <button class="btn-editar-ficha-epi" data-id="${e.id}">Editar</button>
+                    </div>
                 </td>
             </tr>
         `;

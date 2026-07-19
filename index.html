@@ -10,12 +10,11 @@
 </head>
 <body>
 
-        <!-- ==========================================================================
+    <!-- ==========================================================================
         AVISO DE ESTADO DE RED OFFLINE (MÓDULO 4)
-        Nota: Inicia con la clase "oculto-total" para que no estorbe. JavaScript
-        se encargará de quitarla si el navegador detecta que te quedaste sin internet.
+        Corregido: Ahora usa "oculto" para alinearse perfectamente con el CSS
         ========================================================================== -->
-    <div id="offline-toast" class="toast-offline oculto-total">
+    <div id="offline-toast" class="toast-offline oculto">
         ⚠️ Estás navegando en Modo Offline (Sin conexión). Los datos mostrados corresponden a la última copia guardada en tu navegador.
     </div>
 
@@ -132,7 +131,7 @@
             <nav class="main-navigation" style="margin-bottom: 20px;">
                 <button class="btn-nav-characters">Ver Personajes</button>
                 <button class="btn-nav-episodes">Ver Episodios</button>
-                <button class="btn-logout" style="background-color: #dc3545; color: white; margin-left: 15px;">Cerrar Sesión</button>
+                <button class="btn-logout">Cerrar Sesión</button>
             </nav>
 
             <h2>Gestión de Personajes</h2>
@@ -211,7 +210,7 @@
             <nav class="main-navigation" style="margin-bottom: 20px;">
                 <button class="btn-nav-characters">Ver Personajes</button>
                 <button class="btn-nav-episodes">Ver Episodios</button>
-                <button class="btn-logout" style="background-color: #dc3545; color: white; margin-left: 15px;">Cerrar Sesión</button>
+                <button class="btn-logout">Cerrar Sesión</button>
             </nav>
 
             <h2>Gestión de Episodios</h2>
@@ -284,9 +283,11 @@
         ========================================================================== -->
     <div class="theme-switcher-container">
         <label for="theme-toggle">Modo Oscuro:</label>
-        <!-- Este interruptor (checkbox) será escuchado y leído de forma automática por JavaScript -->
         <input type="checkbox" id="theme-toggle">
     </div>
+
+    <!-- CONTENEDOR PRINCIPAL DE AUTENTICACIÓN -->
+    <div id="auth-container">
 
 
     <!-- LLAMADA AL ARCHIVO DE JAVASCRIPT -->
