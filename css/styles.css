@@ -1,0 +1,186 @@
+/* ==========================================================================
+   MÓDULO 4: VARIABLES DE COLORES (PALETA RICK AND MORTY)
+   ========================================================================== */
+
+/* --- PALETA MODO CLARO (Inspirado en Morty) --- */
+:root[data-theme="light"] {
+    --color-fondo-pagina: #f4ebe1;       /* Crema suave como fondo */
+    --color-fondo-caja: #ffffff;         /* Blanco limpio para tarjetas y tablas */
+    --color-texto-principal: #4e3629;    /* Marrón oscuro (pantalón de Morty) para leer bien */
+    --color-borde: #dcd0c0;              /* Borde sutil */
+    --color-acento-principal: #fae042;   /* Amarillo vibrante de la camiseta de Morty */
+    --color-portal-verde: #39ff14;       /* Verde portal brillante para botones */
+    --color-alerta-fondo: #fff3cd;       /* Color crema-amarillo para avisos */
+    --color-alerta-texto: #856404;
+}
+
+/* --- PALETA MODO OSCURO (Inspirado en Rick) --- */
+:root[data-theme="dark"] {
+    --color-fondo-pagina: #0d1117;       /* Azul espacial muy oscuro */
+    --color-fondo-caja: #161b22;         /* Azul grisáceo para tarjetas y tablas */
+    --color-texto-principal: #ffffff;    /* Blanco científico para textos */
+    --color-borde: #30363d;              /* Borde oscuro */
+    --color-acento-principal: #00b0c8;   /* Azul claro de la camiseta de Rick */
+    --color-portal-verde: #1bc43b;       /* Verde portal oscuro pero brillante */
+    --color-alerta-fondo: #2c2513;       /* Alerta oscura */
+    --color-alerta-texto: #ffce3d;
+}
+
+/* ==========================================================================
+   ESTILOS GENERALES Y TRANSICIONES
+   ========================================================================== */
+body {
+    background-color: var(--color-fondo-pagina);
+    color: var(--color-texto-principal);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    /* Hace que el cambio de luces (Light/Dark) se vea suave en 0.3 segundos */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Contenedor del interruptor de luces */
+.theme-switcher-container {
+    background-color: var(--color-fondo-caja);
+    border: 2px solid var(--color-acento-principal);
+    padding: 10px 15px;
+    border-radius: 8px;
+    display: inline-block;
+    margin-bottom: 20px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* ==========================================================================
+   ALERTA DE RED (MODO OFFLINE)
+   ========================================================================== */
+.toast-offline {
+    background-color: var(--color-alerta-fondo);
+    color: var(--color-alerta-texto);
+    padding: 15px;
+    border: 2px solid var(--color-acento-principal);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Clase mágica que JavaScript pone y quita para ocultar cosas */
+.oculto-total {
+    display: none !important;
+}
+
+/* Clase para ocultar pantallas completas (Login, Tablas, etc.) */
+.oculto {
+    display: none !important;
+}
+
+/* ==========================================================================
+   ESTILOS DE TABLAS Y CUADROS DE TEXTO (RESPONSIVOS)
+   ========================================================================== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--color-fondo-caja);
+    border: 1px solid var(--color-borde);
+    margin-top: 15px;
+    border-radius: 8px;
+    overflow: hidden; /* Para que los bordes redondeados se vean bien */
+    transition: background-color 0.3s ease;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--color-borde);
+}
+
+th {
+    background-color: var(--color-acento-principal);
+    /* Si el fondo del título es amarillo (Morty), el texto va oscuro. Si es azul (Rick), va claro */
+    color: var(--color-fondo-pagina); 
+    cursor: pointer; /* Indica que se puede hacer clic para ordenar */
+}
+
+input, select {
+    background-color: var(--color-fondo-caja);
+    color: var(--color-texto-principal);
+    border: 2px solid var(--color-borde);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    border-color: var(--color-acento-principal);
+    outline: none;
+}
+
+/* BOTONES ESTILO PORTAL */
+button {
+    background-color: var(--color-portal-verde);
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    text-shadow: 0px 1px 2px rgba(0,0,0,0.5);
+    transition: transform 0.1s ease, filter 0.2s ease;
+}
+
+button:hover {
+    filter: brightness(1.2); /* Brilla un poco al pasar el ratón */
+}
+
+button:active {
+    transform: scale(0.95); /* Se hunde un poco al hacer clic */
+}
+
+/* ==========================================================================
+   DISEÑO 100% RESPONSIVO (ADAPTABLE A CUALQUIER PANTALLA)
+   ========================================================================== */
+
+/* Tablets (Pantallas medianas menores a 768px) */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    th, td {
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+
+/* Teléfonos Móviles (Pantallas pequeñas menores a 480px) */
+@media (max-width: 480px) {
+    /* Transformamos la tabla en bloques independientes apilados hacia abajo */
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+    
+    thead tr {
+        display: none; /* Escondemos los títulos de arriba porque no caben de lado */
+    }
+    
+    tr {
+        margin-bottom: 15px;
+        border: 2px solid var(--color-borde);
+        border-radius: 8px;
+        padding: 10px;
+        background-color: var(--color-fondo-caja);
+    }
+    
+    td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+        border-bottom: 1px dashed var(--color-borde);
+    }
+
+    td:last-child {
+        border-bottom: none; /* Quitamos la línea al último elemento */
+    }
+}

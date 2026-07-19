@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rick and Morty System - UCAB</title>
+    
+    <!-- Enlace a tu archivo de estilos de diseño -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+        <!-- ==========================================================================
+        AVISO DE ESTADO DE RED OFFLINE (MÓDULO 4)
+        Nota: Inicia con la clase "oculto-total" para que no estorbe. JavaScript
+        se encargará de quitarla si el navegador detecta que te quedaste sin internet.
+        ========================================================================== -->
+    <div id="offline-toast" class="toast-offline oculto-total">
+        ⚠️ Estás navegando en Modo Offline (Sin conexión). Los datos mostrados corresponden a la última copia guardada en tu navegador.
+    </div>
+
+    <!-- CONTENEDOR PRINCIPAL DE AUTENTICACIÓN -->
+    <!-- Esta gran caja encierra todas las pantallas del módulo 1 -->
+    <div id="auth-container">
+
+        <!-- PANTALLA 1: INICIO DE SESIÓN -->
+        <section id="login-view">
+            <h2>Iniciar Sesión</h2>
+            
+            <form id="login-form">
+                <!-- Caja para el nombre de usuario -->
+                <div class="input-group">
+                    <label for="login-username">Usuario o Correo:</label>
+                    <input type="text" id="login-username" placeholder="Ej: estudiante@ucab.edu.ve" required>
+                </div>
+                
+                <!-- Caja para la contraseña -->
+                <div class="input-group">
+                    <label for="login-password">Contraseña:</label>
+                    <input type="password" id="login-password" placeholder="Tu clave secreta" required>
+                </div>
+                
+                <!-- Botón para enviar los datos -->
+                <button type="submit" class="btn-primary">Ingresar</button>
+            </form>
+            
+            <!-- Enlaces para navegar a otras pantallas -->
+            <p>¿No tienes una cuenta? <a href="#" id="go-to-register">Regístrate aquí</a></p>
+            <p><a href="#" id="go-to-recovery">¿Olvidaste tu contraseña?</a></p>
+        </section>
+
+
+        <!-- PANTALLA 2: REGISTRO DE USUARIOS -->
+        <!-- Nota: En tu archivo CSS, esta sección tendrá un estilo para estar oculta al inicio -->
+        <section id="register-view" class="oculto">
+            <h2>Crear Cuenta Nueva</h2>
+            
+            <form id="register-form">
+                <div class="input-group">
+                    <label for="reg-username">Elige un Nombre de Usuario:</label>
+                    <input type="text" id="reg-username" placeholder="Ej: rick_sanchez" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="reg-email">Correo Electrónico:</label>
+                    <input type="email" id="reg-email" placeholder="usuario@ucab.edu.ve" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="reg-password">Crea una Contraseña:</label>
+                    <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres" required>
+                </div>
+                
+                <!-- Pregunta de seguridad exigida para poder recuperar la clave después -->
+                <div class="input-group">
+                    <label for="reg-question">Pregunta de Seguridad:</label>
+                    <select id="reg-question" required>
+                        <option value="mascota">¿Cómo se llamaba tu primera mascota?</option>
+                        <option value="ciudad">¿En qué ciudad naciste?</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label for="reg-answer">Respuesta de Seguridad:</label>
+                    <input type="text" id="reg-answer" placeholder="Escribe tu respuesta aquí" required>
+                </div>
+                
+                <button type="submit" class="btn-primary">Registrarse</button>
+            </form>
+            
+            <p>¿Ya tienes una cuenta? <a href="#" id="go-to-login-from-reg">Inicia sesión</a></p>
+        </section>
+
+
+        <!-- PANTALLA 3: RECUPERACIÓN DE CONTRASEÑA -->
+        <!-- Nota: Esta sección también iniciará oculta -->
+        <section id="recovery-view" class="oculto">
+            <h2>Recuperar mi Contraseña</h2>
+            
+            <form id="recovery-form">
+                <!-- PASO 1: Escribir quién eres -->
+                <div class="input-group">
+                    <label for="recover-username">Escribe tu Usuario o Correo:</label>
+                    <input type="text" id="recover-username" placeholder="Para buscar tu cuenta" required>
+                </div>
+                
+                <!-- PASO 2: Responder la pregunta (Esta cajita interna se activará desde JavaScript) -->
+                <div id="security-step" class="oculto">
+                    <p id="security-question-label">La pregunta de seguridad aparecerá aquí...</p>
+                    
+                    <div class="input-group">
+                        <label for="recover-answer">Escribe tu Respuesta:</label>
+                        <input type="text" id="recover-answer">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="new-password">Nueva Contraseña:</label>
+                        <input type="password" id="new-password" placeholder="Escribe tu nueva clave">
+                    </div>
+                </div>
+                
+                <button type="submit" id="btn-recovery-action" class="btn-primary">Verificar Cuenta</button>
+            </form>
+            
+            <p><a href="#" id="go-to-login-from-rec">Volver atrás al inicio de sesión</a></p>
+        </section>
+
+        <!-- PANTALLA 4: GESTIÓN DE PERSONAJES (Inicia oculta) -->
+        <section id="characters-view" class="oculto">
+
+            <!-- BARRA DE NAVEGACIÓN PRINCIPAL (Agrégala aquí) -->
+            <nav class="main-navigation" style="margin-bottom: 20px;">
+                <button class="btn-nav-characters">Ver Personajes</button>
+                <button class="btn-nav-episodes">Ver Episodios</button>
+                <button class="btn-logout" style="background-color: #dc3545; color: white; margin-left: 15px;">Cerrar Sesión</button>
+            </nav>
+
+            <h2>Gestión de Personajes</h2>
+
+            <!-- BUSCADOR EN TIEMPO REAL -->
+            <div class="search-container">
+                <input type="text" id="character-search" placeholder="Buscar personaje por nombre en tiempo real...">
+            </div>
+
+            <!-- TABLA PRINCIPAL DE DATOS -->
+            <div class="table-responsive">
+                <table id="characters-table">
+                    <thead>
+                        <tr>
+                            <!-- data-columna sirve para que JS sepa por cuál columna ordenar al hacer clic -->
+                            <th data-columna="id" class="cursor-pointer">ID ↕</th>
+                            <th data-columna="name" class="cursor-pointer">Nombre ↕</th>
+                            <th data-columna="species" class="cursor-pointer">Especie ↕</th>
+                            <th data-columna="gender" class="cursor-pointer">Género ↕</th>
+                            <th data-columna="type" class="cursor-pointer">Tipo ↕</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="characters-table-body">
+                        <!-- JavaScript rellenará las filas dinámicamente aquí -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- VENTANA MODAL: DETALLE Y EDICIÓN -->
+            <!-- Se mantiene oculta y se muestra al hacer clic en "Ver Detalle" -->
+            <div id="character-modal" class="modal-backdrop oculto">
+                <div class="modal-card">
+                    <span id="close-modal-btn" class="close-btn">&times;</span>
+                    <h3>Ficha del Personaje</h3>
+                    
+                    <!-- Fotografía del Personaje -->
+                    <div class="character-photo-container">
+                        <img id="modal-char-img" src="" alt="Fotografía del personaje">
+                    </div>
+
+                    <!-- Formulario de Consulta / Edición -->
+                    <form id="edit-character-form">
+                        <!-- Guardamos el ID oculto para saber a quién editamos -->
+                        <input type="hidden" id="modal-char-id">
+
+                        <div class="input-group">
+                            <label for="modal-char-name">Nombre:</label>
+                            <input type="text" id="modal-char-name" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="modal-char-species">Especie:</label>
+                            <input type="text" id="modal-char-species" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="modal-char-gender">Género:</label>
+                            <input type="text" id="modal-char-gender" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="modal-char-type">Tipo:</label>
+                            <input type="text" id="modal-char-type">
+                        </div>
+
+                        <button type="submit" id="modal-char-save-btn" class="btn-primary">Guardar Cambios</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================================
+            PANTALLA 5: GESTIÓN DE EPISODIOS (MÓDULO 3)
+            ========================================================================== -->
+        <section id="episodes-view" class="oculto">
+
+            <!-- BARRA DE NAVEGACIÓN PRINCIPAL (Agrégala aquí) -->
+            <nav class="main-navigation" style="margin-bottom: 20px;">
+                <button class="btn-nav-characters">Ver Personajes</button>
+                <button class="btn-nav-episodes">Ver Episodios</button>
+                <button class="btn-logout" style="background-color: #dc3545; color: white; margin-left: 15px;">Cerrar Sesión</button>
+            </nav>
+
+            <h2>Gestión de Episodios</h2>
+
+            <!-- CAJA DEL BUSCADOR EN TIEMPO REAL -->
+            <div class="search-container">
+                <input type="text" id="episode-search" placeholder="Escribe un nombre para buscar episodios en tiempo real...">
+            </div>
+
+            <!-- TABLA PRINCIPAL DE DATOS -->
+            <div class="table-responsive">
+                <table id="episodes-table">
+                    <thead>
+                        <tr>
+                            <!-- Atributo data-columna para que JS sepa por cuál columna ordenar -->
+                            <th data-columna="id" style="cursor: pointer;">ID ↕</th>
+                            <th data-columna="name" style="cursor: pointer;">Nombre del Episodio ↕</th>
+                            <th data-columna="air_date" style="cursor: pointer;">Fecha de Emisión ↕</th>
+                            <th data-columna="episode" style="cursor: pointer;">Código ↕</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    
+                    <!-- JavaScript rellenará las filas dinámicamente aquí -->
+                    <tbody id="episodes-table-body"></tbody>
+                </table>
+            </div>
+
+            <!-- VENTANA FLOTANTE (MODAL): DETALLE Y EDICIÓN DE EPISODIOS -->
+            <div id="episode-modal" class="modal-backdrop oculto">
+                <div class="modal-card">
+                    
+                    <span id="close-episode-modal-btn" class="close-btn">&times;</span>
+                    
+                    <h3>Ficha Técnica del Episodio</h3>
+
+                    <form id="edit-episode-form">
+                        
+                        <!-- ID oculto para saber qué episodio estamos editando -->
+                        <input type="hidden" id="modal-epi-id">
+
+                        <div class="input-group">
+                            <label for="modal-epi-name">Nombre del Episodio:</label>
+                            <input type="text" id="modal-epi-name" required>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="modal-epi-date">Fecha de Emisión:</label>
+                            <input type="text" id="modal-epi-date" required>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="modal-epi-code">Código del Episodio:</label>
+                            <input type="text" id="modal-epi-code" required placeholder="Ej: S01E01">
+                        </div>
+
+                        <!-- Busca esto casi al final de la PANTALLA 5 en tu HTML -->
+                        <button type="submit" id="modal-epi-save-btn" class="btn-primary">Guardar Cambios</button>                    </form>
+                    
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ==========================================================================
+        INTERRUPTOR DE TEMA DUAL: LIGHT / DARK MODE (MÓDULO 4)
+        Cada vez que el usuario presione este botón de activación, la interfaz
+        cambiará sus colores mediante variables CSS.
+        ========================================================================== -->
+    <div class="theme-switcher-container">
+        <label for="theme-toggle">Modo Oscuro:</label>
+        <!-- Este interruptor (checkbox) será escuchado y leído de forma automática por JavaScript -->
+        <input type="checkbox" id="theme-toggle">
+    </div>
+
+
+    <!-- LLAMADA AL ARCHIVO DE JAVASCRIPT -->
+    <!-- Aquí solo se vincula el archivo que maneja la lógica. Como usamos módulos modernos (ES6), se coloca type="module" -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
