@@ -1,8 +1,5 @@
-// js/auth/authService.js
-
 export const authService = {
 
-    // HERRAMIENTA AUXILIAR: Busca usuarios en el localStorage
     obtenerUsuariosDesdeElNavegador() {
         const datosCargados = localStorage.getItem('usuarios_sistema');
         if (datosCargados === null) {
@@ -11,7 +8,6 @@ export const authService = {
         return JSON.parse(datosCargados);
     },
 
-    // 1. REGISTRO (Corregido para guardar propiedades en inglés)
     register(nombreUsuario, correo, clave, preguntaSeguridad, respuestaSeguridad) {
         const listaUsuarios = this.obtenerUsuariosDesdeElNavegador();
         
@@ -23,11 +19,11 @@ export const authService = {
         }
 
         const nuevoUsuario = {
-            username: nombreUsuario, // <--- Propiedad en inglés
-            email: correo,           // <--- Propiedad en inglés
-            password: clave,         // <--- Propiedad en inglés
-            question: preguntaSeguridad, // <--- Propiedad en inglés (así app.js la encuentra)
-            answer: respuestaSeguridad.toLowerCase().trim() // <--- Propiedad en inglés
+            username: nombreUsuario, 
+            email: correo,           
+            password: clave,         
+            question: preguntaSeguridad, 
+            answer: respuestaSeguridad.toLowerCase().trim() 
         };
 
         listaUsuarios.push(nuevoUsuario);
@@ -35,14 +31,12 @@ export const authService = {
         return true;
     },
 
-    // 2. INICIO DE SESIÓN (Corregido para buscar en inglés)
     login(usuarioOCorreo, clave) {
         const listaUsuarios = this.obtenerUsuariosDesdeElNavegador();
         
         for (let i = 0; i < listaUsuarios.length; i++) {
             const cuentaActual = listaUsuarios[i];
             
-            // Evaluamos usando las propiedades en inglés
             if ((cuentaActual.username === usuarioOCorreo || cuentaActual.email === usuarioOCorreo) && cuentaActual.password === clave) {
                 localStorage.setItem('sesion_activa', 'si');
                 localStorage.setItem('usuario_actual', cuentaActual.username);
@@ -53,21 +47,19 @@ export const authService = {
         throw new Error('Credenciales inválidas. Por favor, verifica tu usuario y contraseña.');
     },
 
-    // 3. RECUPERACIÓN PASO A (Corregido)
     findUserForRecovery(usuarioOCorreo) {
         const listaUsuarios = this.obtenerUsuariosDesdeElNavegador();
         
         for (let i = 0; i < listaUsuarios.length; i++) {
             const cuentaActual = listaUsuarios[i];
             if (cuentaActual.username === usuarioOCorreo || cuentaActual.email === usuarioOCorreo) {
-                return cuentaActual; // Ahora el objeto devuelto tiene la propiedad .question
+                return cuentaActual; 
             }
         }
 
         throw new Error('No pudimos encontrar ninguna cuenta con ese usuario o correo.');
     },
 
-    // 4. RECUPERACIÓN PASO B (Corregido)
     resetPassword(nombreUsuario, respuestaEscrita, nuevaClave) {
         const listaUsuarios = this.obtenerUsuariosDesdeElNavegador();
         
@@ -75,7 +67,7 @@ export const authService = {
             if (listaUsuarios[i].username === nombreUsuario) {
                 
                 if (listaUsuarios[i].answer === respuestaEscrita.toLowerCase().trim()) {
-                    listaUsuarios[i].password = nuevaClave; // Actualizamos la contraseña en inglés
+                    listaUsuarios[i].password = nuevaClave;
                     
                     localStorage.setItem('usuarios_sistema', JSON.stringify(listaUsuarios));
                     return true;
