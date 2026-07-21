@@ -1,61 +1,43 @@
-// js/app.js
-
-// ==========================================================================
-// IMPORTACIONES: Conectamos las herramientas de nuestros archivos de servicio
-// ==========================================================================
 import { authService } from './auth/authService.js';
 import { apiService } from './api/apiService.js';
 import { characterService } from './characters/characterService.js';
 import { episodeService } from './episodes/episodeService.js';
-import { uiService } from './ui/uiService.js'; // <-- ¡Nueva herramienta visual y de red!
+import { uiService } from './ui/uiService.js'; 
 
-// ==========================================================================
-// PANTALLAS PRINCIPALES DEL HTML
-// ==========================================================================
 const pantallaLogin = document.getElementById('login-view');
 const pantallaRegistro = document.getElementById('register-view');
 const pantallaRecuperacion = document.getElementById('recovery-view');
 const pantallaPersonajes = document.getElementById('characters-view');
 const pantallaEpisodios = document.getElementById('episodes-view');
 
-// Elementos internos de la recuperación de contraseña
 const pasoSeguridadRecuperacion = document.getElementById('security-step');
 const etiquetaPregunta = document.getElementById('security-question-label');
 const botonAccionRecuperacion = document.getElementById('btn-recovery-action');
 let usuarioEnRecuperacion = '';
 
-// Elementos internos de la gestión de personajes (Módulo 2)
 const cuerpoTablaPersonajes = document.getElementById('characters-table-body');
 const buscadorPersonajes = document.getElementById('character-search');
 const modalPersonaje = document.getElementById('character-modal');
 const botonCerrarModal = document.getElementById('close-modal-btn');
 const formularioEditarPersonaje = document.getElementById('edit-character-form');
-const botonGuardarPersonaje = document.getElementById('modal-char-save-btn'); // <-- ¡AGREGA ESTA LÍNEA!
+const botonGuardarPersonaje = document.getElementById('modal-char-save-btn'); 
 
-// Elementos internos de la gestión de episodios (Módulo 3)
 const cuerpoTablaEpisodios = document.getElementById('episodes-table-body');
 const buscadorEpisodios = document.getElementById('episode-search');
 const modalEpisodio = document.getElementById('episode-modal');
 const botonCerrarModalEpi = document.getElementById('close-episode-modal-btn');
 const formularioEditarEpisodio = document.getElementById('edit-episode-form');
-const botonGuardarEpisodio = document.getElementById('modal-epi-save-btn'); // <-- ¡AGREGA ESTA LÍNEA!
-// NUEVOS ELEMENTOS DE INTERFAZ Y RED (Módulo 4)
+const botonGuardarEpisodio = document.getElementById('modal-epi-save-btn'); 
 const interruptorTema = document.getElementById('theme-toggle');
 const barraAlertaOffline = document.getElementById('offline-toast');
 
-// ==========================================================================
-// CONFIGURACIÓN INICIAL AUTOMÁTICA (APARIENCIA Y RED)
-// ==========================================================================
-// Al abrir la app, revisamos qué tema prefiere el usuario y si tiene internet
 uiService.inicializarTema(interruptorTema);
 uiService.comprobarEstadoRed(barraAlertaOffline);
 
-// Escuchamos si el usuario activa o desactiva el interruptor de modo oscuro
 interruptorTema.addEventListener('change', function() {
     uiService.alternarTema(interruptorTema.checked);
 });
 
-// Escuchamos de forma automática si la computadora pierde o recupera la señal de internet
 window.addEventListener('online', function() {
     uiService.comprobarEstadoRed(barraAlertaOffline);
 });
@@ -63,9 +45,6 @@ window.addEventListener('offline', function() {
     uiService.comprobarEstadoRed(barraAlertaOffline);
 });
 
-// ==========================================================================
-// ENLACES DE NAVEGACIÓN (CAMBIAR DE PANTALLA)
-// ==========================================================================
 document.getElementById('go-to-register').addEventListener('click', function() {
     pantallaLogin.classList.add('oculto');
     pantallaRegistro.classList.remove('oculto');
@@ -88,54 +67,35 @@ document.getElementById('go-to-login-from-rec').addEventListener('click', functi
     pantallaLogin.classList.remove('oculto');
 });
 
-// ==========================================================================
-// ENLACES DE NAVEGACIÓN CORREGIDOS
-// ==========================================================================
-
-// Lógica para que todos los botones de personajes funcionen
 document.querySelectorAll('.btn-nav-characters').forEach(function(boton) {
     boton.addEventListener('click', function() {
-        pantallaEpisodios.classList.add('oculto');     // Esconde episodios
-        pantallaPersonajes.classList.remove('oculto'); // Muestra personajes
+        pantallaEpisodios.classList.add('oculto');     
+        pantallaPersonajes.classList.remove('oculto'); 
     });
 });
 
-// Lógica para que todos los botones de episodios funcionen
 document.querySelectorAll('.btn-nav-episodes').forEach(function(boton) {
     boton.addEventListener('click', function() {
-        pantallaPersonajes.classList.add('oculto');    // Esconde personajes
-        pantallaEpisodios.classList.remove('oculto');  // Muestra episodios
+        pantallaPersonajes.classList.add('oculto');    
+        pantallaEpisodios.classList.remove('oculto');  
     });
 });
 
-// Lógica para que todos los botones de Cerrar Sesión funcionen
 document.querySelectorAll('.btn-logout').forEach(function(boton) {
     boton.addEventListener('click', function() {
-        // 1. Preguntar al usuario si está seguro (Opcional pero recomendado)
         if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
             
-            // 2. Esconder las pantallas del sistema interno
             pantallaPersonajes.classList.add('oculto');
             pantallaEpisodios.classList.add('oculto');
             
-            // 3. Limpiar los campos del formulario de login por seguridad
             document.getElementById('login-form').reset();
             
-            // 4. Mostrar la pantalla de inicio de sesión
             pantallaLogin.classList.remove('oculto');
             
-            // 5. (Opcional) Si tu authService requiere limpiar tokens o sesiones locales:
-            // authService.logout(); 
         }
     });
 });
 
-
-// ==========================================================================
-// ACCIONES DEL MÓDULO 1: AUTENTICACIÓN
-// ==========================================================================
-
-// Iniciar Sesión (Login)
 document.getElementById('login-form').addEventListener('submit', async function(evento) {
     evento.preventDefault();
     const usuarioEscrito = document.getElementById('login-username').value;
@@ -148,12 +108,10 @@ document.getElementById('login-form').addEventListener('submit', async function(
         pantallaLogin.classList.add('oculto');
         pantallaPersonajes.classList.remove('oculto');
         
-        // DESCARGA INICIAL DE PERSONAJES
         const personajesDeInternet = await apiService.obtenerPersonajesDeInternet();
         characterService.inicializarPersonajes(personajesDeInternet);
         pintarTablaPersonajes(characterService.personajesEnMemoria);
 
-        // DESCARGA INICIAL DE EPISODIOS
         const episodiosDeInternet = await apiService.obtenerEpisodiosDeInternet();
         episodeService.inicializarEpisodios(episodiosDeInternet);
         pintarTablaEpisodios(episodeService.episodiosEnMemoria);
@@ -163,7 +121,6 @@ document.getElementById('login-form').addEventListener('submit', async function(
     }
 });
 
-// Registrar un Usuario Nuevo
 document.getElementById('register-form').addEventListener('submit', function(evento) {
     evento.preventDefault();
     const usuario = document.getElementById('reg-username').value;
@@ -182,7 +139,6 @@ document.getElementById('register-form').addEventListener('submit', function(eve
     }
 });
 
-// Recuperar Contraseña Vieja
 document.getElementById('recovery-form').addEventListener('submit', function(evento) {
     evento.preventDefault();
 
@@ -214,11 +170,6 @@ document.getElementById('recovery-form').addEventListener('submit', function(eve
         }
     }
 });
-
-
-// ==========================================================================
-// ACCIONES DEL MÓDULO 2: GESTIÓN DE PERSONAJES
-// ==========================================================================
 
 function pintarTablaPersonajes(listaDePersonajes) {
     cuerpoTablaPersonajes.innerHTML = '';
@@ -265,7 +216,6 @@ document.querySelectorAll('#characters-table th').forEach(function(titulo) {
 });
 
 function asignarEventosABotonesDeFichaPersonajes() {
-    // ACCIÓN 1: PRESIONAR "VER DETALLE"
     document.querySelectorAll('.btn-ver-detalle').forEach(function(boton) {
         boton.addEventListener('click', function() {
             const idBuscar = Number(boton.getAttribute('data-id'));
@@ -274,7 +224,6 @@ function asignarEventosABotonesDeFichaPersonajes() {
             });
             
             if (personajeSeleccionado) {
-                // Rellenamos los campos del formulario
                 document.getElementById('modal-char-id').value = personajeSeleccionado.id;
                 document.getElementById('modal-char-img').src = personajeSeleccionado.image || '';
                 document.getElementById('modal-char-name').value = personajeSeleccionado.name;
@@ -282,13 +231,11 @@ function asignarEventosABotonesDeFichaPersonajes() {
                 document.getElementById('modal-char-gender').value = personajeSeleccionado.gender;
                 document.getElementById('modal-char-type').value = personajeSeleccionado.type || '';
 
-                // Bloqueamos los campos para que NO se puedan editar
                 document.getElementById('modal-char-name').disabled = true;
                 document.getElementById('modal-char-species').disabled = true;
                 document.getElementById('modal-char-gender').disabled = true;
                 document.getElementById('modal-char-type').disabled = true;
 
-                // OCULTAMOS el botón de Guardar Cambios
                 botonGuardarPersonaje.classList.add('oculto');
 
                 modalPersonaje.classList.remove('oculto');
@@ -296,7 +243,6 @@ function asignarEventosABotonesDeFichaPersonajes() {
         });
     });
 
-    // ACCIÓN 2: PRESIONAR "EDITAR"
     document.querySelectorAll('.btn-editar-ficha').forEach(function(boton) {
         boton.addEventListener('click', function() {
             const idBuscar = Number(boton.getAttribute('data-id'));
@@ -305,7 +251,6 @@ function asignarEventosABotonesDeFichaPersonajes() {
             });
             
             if (personajeSeleccionado) {
-                // Rellenamos los campos del formulario
                 document.getElementById('modal-char-id').value = personajeSeleccionado.id;
                 document.getElementById('modal-char-img').src = personajeSeleccionado.image || '';
                 document.getElementById('modal-char-name').value = personajeSeleccionado.name;
@@ -313,13 +258,11 @@ function asignarEventosABotonesDeFichaPersonajes() {
                 document.getElementById('modal-char-gender').value = personajeSeleccionado.gender;
                 document.getElementById('modal-char-type').value = personajeSeleccionado.type || '';
 
-                // Desbloqueamos los campos para que SÍ se puedan editar
                 document.getElementById('modal-char-name').disabled = false;
                 document.getElementById('modal-char-species').disabled = false;
                 document.getElementById('modal-char-gender').disabled = false;
                 document.getElementById('modal-char-type').disabled = false;
 
-                // MOSTRAMOS el botón de Guardar Cambios
                 botonGuardarPersonaje.classList.remove('oculto');
 
                 modalPersonaje.classList.remove('oculto');
@@ -349,9 +292,6 @@ formularioEditarPersonaje.addEventListener('submit', function(evento) {
 });
 
 
-// ==========================================================================
-// ACCIONES DEL MÓDULO 3: GESTIÓN DE EPISODIOS
-// ==========================================================================
 function pintarTablaEpisodios(listaDeEpisodios) {
     cuerpoTablaEpisodios.innerHTML = '';
 
@@ -396,7 +336,6 @@ document.querySelectorAll('#episodes-table th').forEach(function(titulo) {
 });
 
 function asignarEventosABotonesDeFichaEpisodios() {
-    // ACCIÓN 1: PRESIONAR "VER DETALLE"
     document.querySelectorAll('.btn-ver-detalle-epi').forEach(function(boton) {
         boton.addEventListener('click', function() {
             const idBuscar = Number(boton.getAttribute('data-id'));
@@ -405,18 +344,15 @@ function asignarEventosABotonesDeFichaEpisodios() {
             });
             
             if (episodioSeleccionado) {
-                // Rellenamos los campos del formulario
                 document.getElementById('modal-epi-id').value = episodioSeleccionado.id;
                 document.getElementById('modal-epi-name').value = episodioSeleccionado.name;
                 document.getElementById('modal-epi-date').value = episodioSeleccionado.air_date;
                 document.getElementById('modal-epi-code').value = episodioSeleccionado.episode;
 
-                // Bloqueamos los campos para que NO se puedan modificar
                 document.getElementById('modal-epi-name').disabled = true;
                 document.getElementById('modal-epi-date').disabled = true;
                 document.getElementById('modal-epi-code').disabled = true;
 
-                // OCULTAMOS el botón de Guardar Cambios
                 botonGuardarEpisodio.classList.add('oculto');
 
                 modalEpisodio.classList.remove('oculto');
@@ -424,7 +360,6 @@ function asignarEventosABotonesDeFichaEpisodios() {
         });
     });
 
-    // ACCIÓN 2: PRESIONAR "EDITAR"
     document.querySelectorAll('.btn-editar-ficha-epi').forEach(function(boton) {
         boton.addEventListener('click', function() {
             const idBuscar = Number(boton.getAttribute('data-id'));
@@ -433,18 +368,15 @@ function asignarEventosABotonesDeFichaEpisodios() {
             });
             
             if (episodioSeleccionado) {
-                // Rellenamos los campos del formulario
                 document.getElementById('modal-epi-id').value = episodioSeleccionado.id;
                 document.getElementById('modal-epi-name').value = episodioSeleccionado.name;
                 document.getElementById('modal-epi-date').value = episodioSeleccionado.air_date;
                 document.getElementById('modal-epi-code').value = episodioSeleccionado.episode;
 
-                // Desbloqueamos los campos para que SÍ se puedan editar
                 document.getElementById('modal-epi-name').disabled = false;
                 document.getElementById('modal-epi-date').disabled = false;
                 document.getElementById('modal-epi-code').disabled = false;
 
-                // MOSTRAMOS el botón de Guardar Cambios
                 botonGuardarEpisodio.classList.remove('oculto');
 
                 modalEpisodio.classList.remove('oculto');
