@@ -5,53 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rick and Morty System - UCAB</title>
     
-    <!-- Enlace a tu archivo de estilos de diseño -->
      
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-    <!-- ==========================================================================
-        AVISO DE ESTADO DE RED OFFLINE (MÓDULO 4)
-        Corregido: Ahora usa "oculto" para alinearse perfectamente con el CSS
-        ========================================================================== -->
     <div id="offline-toast" class="toast-offline oculto">
         ⚠️ Estás navegando en Modo Offline (Sin conexión). Los datos mostrados corresponden a la última copia guardada en tu navegador.
     </div>
 
-    <!-- CONTENEDOR PRINCIPAL DE AUTENTICACIÓN -->
-    <!-- Esta gran caja encierra todas las pantallas del módulo 1 -->
     <div id="auth-container">
 
-        <!-- PANTALLA 1: INICIO DE SESIÓN -->
         <section id="login-view">
             <h2>Iniciar Sesión</h2>
             
             <form id="login-form">
-                <!-- Caja para el nombre de usuario -->
                 <div class="input-group">
                     <label for="login-username">Usuario o Correo:</label>
                     <input type="text" id="login-username" placeholder="Ej: estudiante@ucab.edu.ve" required>
                 </div>
                 
-                <!-- Caja para la contraseña -->
                 <div class="input-group">
                     <label for="login-password">Contraseña:</label>
                     <input type="password" id="login-password" placeholder="Tu clave secreta" required>
                 </div>
                 
-                <!-- Botón para enviar los datos -->
                 <button type="submit" class="btn-primary">Ingresar</button>
             </form>
             
-            <!-- Enlaces para navegar a otras pantallas -->
             <p>¿No tienes una cuenta? <a href="#" id="go-to-register">Regístrate aquí</a></p>
             <p><a href="#" id="go-to-recovery">¿Olvidaste tu contraseña?</a></p>
         </section>
 
 
-        <!-- PANTALLA 2: REGISTRO DE USUARIOS -->
-        <!-- Nota: En tu archivo CSS, esta sección tendrá un estilo para estar oculta al inicio -->
         <section id="register-view" class="oculto">
             <h2>Crear Cuenta Nueva</h2>
             
@@ -71,7 +57,6 @@
                     <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres" required>
                 </div>
                 
-                <!-- Pregunta de seguridad exigida para poder recuperar la clave después -->
                 <div class="input-group">
                     <label for="reg-question">Pregunta de Seguridad:</label>
                     <select id="reg-question" required>
@@ -92,19 +77,15 @@
         </section>
 
 
-        <!-- PANTALLA 3: RECUPERACIÓN DE CONTRASEÑA -->
-        <!-- Nota: Esta sección también iniciará oculta -->
         <section id="recovery-view" class="oculto">
             <h2>Recuperar mi Contraseña</h2>
             
             <form id="recovery-form">
-                <!-- PASO 1: Escribir quién eres -->
                 <div class="input-group">
                     <label for="recover-username">Escribe tu Usuario o Correo:</label>
                     <input type="text" id="recover-username" placeholder="Para buscar tu cuenta" required>
                 </div>
                 
-                <!-- PASO 2: Responder la pregunta (Esta cajita interna se activará desde JavaScript) -->
                 <div id="security-step" class="oculto">
                     <p id="security-question-label">La pregunta de seguridad aparecerá aquí...</p>
                     
@@ -125,10 +106,8 @@
             <p><a href="#" id="go-to-login-from-rec">Volver atrás al inicio de sesión</a></p>
         </section>
 
-        <!-- PANTALLA 4: GESTIÓN DE PERSONAJES (Inicia oculta) -->
         <section id="characters-view" class="oculto">
 
-            <!-- BARRA DE NAVEGACIÓN PRINCIPAL (Agrégala aquí) -->
             <nav class="main-navigation" style="margin-bottom: 20px;">
                 <button class="btn-nav-characters">Ver Personajes</button>
                 <button class="btn-nav-episodes">Ver Episodios</button>
@@ -137,17 +116,14 @@
 
             <h2>Gestión de Personajes</h2>
 
-            <!-- BUSCADOR EN TIEMPO REAL -->
             <div class="search-container">
                 <input type="text" id="character-search" placeholder="Buscar personaje por nombre en tiempo real...">
             </div>
 
-            <!-- TABLA PRINCIPAL DE DATOS -->
             <div class="table-responsive">
                 <table id="characters-table">
                     <thead>
                         <tr>
-                            <!-- data-columna sirve para que JS sepa por cuál columna ordenar al hacer clic -->
                             <th data-columna="id" class="cursor-pointer">ID ↕</th>
                             <th data-columna="name" class="cursor-pointer">Nombre ↕</th>
                             <th data-columna="species" class="cursor-pointer">Especie ↕</th>
@@ -157,26 +133,20 @@
                         </tr>
                     </thead>
                     <tbody id="characters-table-body">
-                        <!-- JavaScript rellenará las filas dinámicamente aquí -->
                     </tbody>
                 </table>
             </div>
 
-            <!-- VENTANA MODAL: DETALLE Y EDICIÓN -->
-            <!-- Se mantiene oculta y se muestra al hacer clic en "Ver Detalle" -->
             <div id="character-modal" class="modal-backdrop oculto">
                 <div class="modal-card">
                     <span id="close-modal-btn" class="close-btn">&times;</span>
                     <h3>Ficha del Personaje</h3>
                     
-                    <!-- Fotografía del Personaje -->
                     <div class="character-photo-container">
                         <img id="modal-char-img" src="" alt="Fotografía del personaje">
                     </div>
 
-                    <!-- Formulario de Consulta / Edición -->
                     <form id="edit-character-form">
-                        <!-- Guardamos el ID oculto para saber a quién editamos -->
                         <input type="hidden" id="modal-char-id">
 
                         <div class="input-group">
@@ -202,12 +172,8 @@
             </div>
         </section>
 
-        <!-- ==========================================================================
-            PANTALLA 5: GESTIÓN DE EPISODIOS (MÓDULO 3)
-            ========================================================================== -->
         <section id="episodes-view" class="oculto">
 
-            <!-- BARRA DE NAVEGACIÓN PRINCIPAL (Agrégala aquí) -->
             <nav class="main-navigation" style="margin-bottom: 20px;">
                 <button class="btn-nav-characters">Ver Personajes</button>
                 <button class="btn-nav-episodes">Ver Episodios</button>
@@ -216,17 +182,14 @@
 
             <h2>Gestión de Episodios</h2>
 
-            <!-- CAJA DEL BUSCADOR EN TIEMPO REAL -->
             <div class="search-container">
                 <input type="text" id="episode-search" placeholder="Escribe un nombre para buscar episodios en tiempo real...">
             </div>
 
-            <!-- TABLA PRINCIPAL DE DATOS -->
             <div class="table-responsive">
                 <table id="episodes-table">
                     <thead>
                         <tr>
-                            <!-- Atributo data-columna para que JS sepa por cuál columna ordenar -->
                             <th data-columna="id" style="cursor: pointer;">ID ↕</th>
                             <th data-columna="name" style="cursor: pointer;">Nombre del Episodio ↕</th>
                             <th data-columna="air_date" style="cursor: pointer;">Fecha de Emisión ↕</th>
@@ -235,12 +198,10 @@
                         </tr>
                     </thead>
                     
-                    <!-- JavaScript rellenará las filas dinámicamente aquí -->
                     <tbody id="episodes-table-body"></tbody>
                 </table>
             </div>
 
-            <!-- VENTANA FLOTANTE (MODAL): DETALLE Y EDICIÓN DE EPISODIOS -->
             <div id="episode-modal" class="modal-backdrop oculto">
                 <div class="modal-card">
                     
@@ -250,7 +211,6 @@
 
                     <form id="edit-episode-form">
                         
-                        <!-- ID oculto para saber qué episodio estamos editando -->
                         <input type="hidden" id="modal-epi-id">
 
                         <div class="input-group">
@@ -268,7 +228,6 @@
                             <input type="text" id="modal-epi-code" required placeholder="Ej: S01E01">
                         </div>
 
-                        <!-- Busca esto casi al final de la PANTALLA 5 en tu HTML -->
                         <button type="submit" id="modal-epi-save-btn" class="btn-primary">Guardar Cambios</button>                    </form>
                     
                 </div>
@@ -277,22 +236,14 @@
 
     </div>
 
-    <!-- ==========================================================================
-        INTERRUPTOR DE TEMA DUAL: LIGHT / DARK MODE (MÓDULO 4)
-        Cada vez que el usuario presione este botón de activación, la interfaz
-        cambiará sus colores mediante variables CSS.
-        ========================================================================== -->
     <div class="theme-switcher-container">
         <label for="theme-toggle">Modo Oscuro:</label>
         <input type="checkbox" id="theme-toggle">
     </div>
 
-    <!-- CONTENEDOR PRINCIPAL DE AUTENTICACIÓN -->
     <div id="auth-container">
 
 
-    <!-- LLAMADA AL ARCHIVO DE JAVASCRIPT -->
-    <!-- Aquí solo se vincula el archivo que maneja la lógica. Como usamos módulos modernos (ES6), se coloca type="module" -->
     <script type="module" src="js/app.js"></script>
 </body>
 </html>
