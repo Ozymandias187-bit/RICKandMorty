@@ -12,7 +12,6 @@ export const authService = {
         const listaUsuarios = this.obtenerUsuariosDesdeElNavegador();
         
         for (let i = 0; i < listaUsuarios.length; i++) {
-            // Cambiado a .username y .email para consistencia
             if (listaUsuarios[i].username === nombreUsuario || listaUsuarios[i].email === correo) {
                 throw new Error('El nombre de usuario o el correo electrónico ya están registrados.');
             }
